@@ -34,7 +34,29 @@ const Home = () => {
 	};
 
 	const removeTodo = (index) => {
-		setTodos(todos.filter((_, todoIndex) => todoIndex !== index));
+
+		let body = todos.filter((_, todoIndex) => todoIndex !== index)
+
+		fetch("https://playground.4geeks.com/apis/fake/todos/user/flallanroger", {
+			method: 'PUT',
+			body: JSON.stringify(body),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		.then((response) => {
+			if(!response.ok) throw Error ("Error response")
+			return response.json()
+		})
+		.then((data) => {
+			console.log(data)
+			setTodos(todos.filter((_, todoIndex) => todoIndex !== index));
+		})
+		.catch((error) => {
+			alert(`Ha habido un Error! 😲 Error details: ${error.message}`)	
+			console.log(error)
+		});
+	
 	};
 
 
